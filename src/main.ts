@@ -1,7 +1,7 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import './index.css'
-import { registerModules } from './helper/register-modules'
+import { registerModules } from './services/registerModulesService'
 import router from './router'
 import modules from './modules'
 

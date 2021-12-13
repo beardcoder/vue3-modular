@@ -17,6 +17,4 @@ const moduleRoute: RouteRecordRaw = {
 
 export default (router: Router) => {
   router.addRoute(moduleRoute)
-
-  console.log(router.getRoutes())
 }
