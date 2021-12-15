@@ -1,7 +1,10 @@
-import router from './router'
-import menu from './menu'
+import { routes } from './routes'
+import { navigation } from './navigation'
+import { ModuleDefinition } from '../../factory/mdule.factory'
 
-export default {
-  router,
-  menu,
+const module: ModuleDefinition = {
+  routes,
+  navigation,
 }
+
+export default module
