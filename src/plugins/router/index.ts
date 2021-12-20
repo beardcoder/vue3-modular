@@ -4,7 +4,7 @@ const history = createWebHistory()
 const routes: RouteRecordRaw[] = [
   {
     path: '/',
-    component: () => import('../pages/Home.vue'),
+    component: () => import('../../pages/Home.vue'),
   },
 ]
 

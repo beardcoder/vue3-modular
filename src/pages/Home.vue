@@ -1,22 +1,16 @@
 <script lang="ts" setup>
-import { getNavigation, addNavigation } from '../factory/navigation.factory'
+import { inject } from 'vue'
+import { Navigation } from '../factory/navigation.factory'
 
-addNavigation([
-  {
-    to: '/dashboard',
-    id: 'dashboard',
-    label: 'Dashboard',
-    position: 3,
-  },
-])
-const navigation = getNavigation()
+const navigation = inject<Navigation>('navigation')
 </script>
 
 <template>
   Hello from Home
   <pre>{{ navigation }}</pre>
-
-  <router-link v-for="[key, element] in navigation" :key="key" :to="element.to">
-    {{ element.label }}
-  </router-link>
+  <div v-if="navigation">
+    <router-link v-for="item in navigation.items" :key="item.id" :to="item.to">
+      {{ item.label }}
+    </router-link>
+  </div>
 </template>

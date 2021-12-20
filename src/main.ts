@@ -1,12 +1,12 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import './index.css'
-import { registerModules } from './services/register-module.service'
-import router from './router'
-import dashboard from './modules/dashboard'
+import router from './plugins/router'
+import navigation from './plugins/navigation'
+import moduleLoader from './plugins/modules'
 
-registerModules({
-  dashboard,
-})
-
-createApp(App).use(router).mount('#app')
+const app = createApp(App)
+app.use(router)
+app.use(navigation)
+app.use(moduleLoader)
+app.mount('#app')

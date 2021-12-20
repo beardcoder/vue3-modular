@@ -1,35 +1,50 @@
-import type { RouteRecordRaw } from 'vue-router'
-import router from '../router'
-import { Navigation, addNavigation } from './navigation.factory'
+import { App } from 'vue'
+import type { Router } from 'vue-router'
+import router from '../plugins/router'
+import { Navigation } from './navigation.factory'
+import navigation from '../plugins/navigation'
 
-export interface ModuleDefinition {
-  navigation?: Navigation[]
-  routes?: RouteRecordRaw
+export interface ModuleContext {
+  app: App
+  router: Router
+  navigation: Navigation
 }
 
-/**
- * Registry for modules
- * @type {Map<String, Object>}
- */
-const modules: Map<string, ModuleDefinition> = new Map()
-
-/**
- * Returns the registry of all modules mounted in the application.
- */
-function getModuleRegistry(): Map<string, ModuleDefinition> {
-  return modules
+export interface Module<
+  Injections extends Record<string, any> = Record<string, any>
+> {
+  (context: ModuleContext):
+    | Promise<void>
+    | Promise<{ provide?: Injections }>
+    | void
+    | { provide?: Injections }
 }
 
-function registerModule(name: string, moduleDefinition: ModuleDefinition) {
-  if (moduleDefinition.navigation) {
-    addNavigation(moduleDefinition.navigation)
+function registerModule(module: Module) {
+  return module
+}
+
+function createModuleLoader(modules: Module[] = []) {
+  async function applyModule(app: App, module: Module) {
+    if (typeof module !== 'function') {
+      return
+    }
+
+    const { provide } = (await module({ app, router, navigation })) || {}
+    if (provide && typeof provide === 'object') {
+      for (const key in provide) {
+        app.provide(key, provide[key])
+      }
+    }
   }
-
-  if (moduleDefinition.routes) {
-    router.addRoute(moduleDefinition.routes)
+  return {
+    modules,
+    async install(app: App) {
+      for (const module of modules) {
+        await applyModule(app, module)
+      }
+    },
   }
-
-  modules.set(name, moduleDefinition)
 }
 
-export { getModuleRegistry, registerModule }
+export { createModuleLoader, registerModule }

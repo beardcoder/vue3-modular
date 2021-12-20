@@ -1,6 +1,6 @@
-import type { Navigation } from '../../factory/navigation.factory'
+import type { NavigationItem } from '../../factory/navigation.factory'
 
-export const navigation: Navigation[] = [
+export const navigationItems: NavigationItem[] = [
   {
     to: '/dashboard',
     id: 'dashboard',
