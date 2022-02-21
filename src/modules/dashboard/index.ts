@@ -1,8 +1,18 @@
-import { routes } from './routes'
-import { navigationItems } from './navigation'
-import { registerModule } from '../../factory/mdule.factory'
+import { defineModule } from '../../utils/define-module'
 
-export default registerModule(({ router, navigation }) => {
-  router.addRoute(routes)
-  navigation.addNavigation(navigationItems)
+export default defineModule({
+  id: 'dashboard',
+  routes: [
+    {
+      path: '',
+      component: () => import('./pages/Dashboard.vue'),
+    },
+  ],
+  navigation: [
+    {
+      to: '/dashboard',
+      id: 'dashboard',
+      label: 'Dashboard',
+    },
+  ],
 })

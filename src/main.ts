@@ -1,12 +1,18 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import './index.css'
-import router from './plugins/router'
-import navigation from './plugins/navigation'
-import moduleLoader from './plugins/modules'
+import { router } from './plugins/router'
+import { loadModules, register as registerModules } from './modules/register'
 
-const app = createApp(App)
-app.use(router)
-app.use(navigation)
-app.use(moduleLoader)
-app.mount('#app')
+init()
+
+async function init() {
+  const app = createApp(App)
+  app.use(router)
+
+  await Promise.all([loadModules()])
+
+  registerModules()
+
+  app.mount('#app')
+}
