@@ -1,9 +1,10 @@
 import { router } from '../plugins/router'
 import { ModuleConfig } from '../utils/define-module'
 import routerPassComponent from '../utils/router-passthrough'
-import { getModules } from './index'
+import { getModules, getNavigation } from './index'
 
 const { modules } = getModules()
+const { navigation } = getNavigation()
 
 let queuedModules: ModuleConfig[] = []
 
@@ -29,6 +30,10 @@ export async function register(): Promise<void> {
       path: `/${module.id}`,
       component: routerPassComponent,
       children: module.routes,
+    })
+
+    module.navigation.forEach((item) => {
+      navigation.value.push(item)
     })
   }
 

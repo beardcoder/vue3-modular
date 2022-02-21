@@ -14,6 +14,13 @@ export interface ModuleConfig {
   navigation: NavigationItem[]
 }
 
+/**
+ * "Define a module."
+ *
+ * The function takes a single argument, which is a configuration object
+ * @param {ModuleConfig} config - The configuration object for the module.
+ * @returns The config object
+ */
 export function defineModule(config: ModuleConfig): ModuleConfig {
   return config
 }
