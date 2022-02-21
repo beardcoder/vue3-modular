@@ -10,7 +10,7 @@ const { navigation } = getNavigation()
     <router-link
       v-for="item in navigation"
       :key="item.id"
-      class="underline text-teal-500"
+      class="text-green-500 inline-block mr-4 border-2 border-green-500 px-5 py-2 hover:bg-green-500 hover:text-white"
       :to="item.to"
     >
       {{ item.label }}
